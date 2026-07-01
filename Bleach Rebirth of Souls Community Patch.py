@@ -20,18 +20,6 @@ import webbrowser
 from pathlib import Path
 
 try: 
-    import pygame
-except :
-    subprocess.run(
-        [sys.executable,"-m","pip","install","pygame"]
-    )
-    try:
-        import pygame
-    except:
-        pass
-
-
-try: 
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
     try:
@@ -42,12 +30,13 @@ try:
         
         #if there is an update, will relaunch the launcher so the code actually gets reset too
         else:
-            subprocess.run(os.path.join(BASE_DIR,"Bleach Rebirth of Souls Community Patch.py"),shell=True)
-            try :
-                winsound.PlaySound(None,winsound.SND_PURGE)
-            except:
-                pass
-            exit()
+            pass
+            #subprocess.run(os.path.join(BASE_DIR,"Bleach Rebirth of Souls Community Patch.py"),shell=True)
+            #try :
+                #winsound.PlaySound(None,winsound.SND_PURGE)
+            #except:
+                #pass
+            #exit()
 
     except Exception as e:
         try:
@@ -59,7 +48,6 @@ try:
         a = input("Press Enter to exit ")
         exit()
     
-
     def refresh_launcher():
         subprocess.run(os.path.join(BASE_DIR,"Bleach Rebirth of Souls Community Patch.py"),shell=True)
         try :
@@ -168,15 +156,11 @@ try:
 
     ressourcesPath = os.path.join(BASE_DIR,"ressources")
     launcherOstPath = os.path.join(ressourcesPath,"LauncherOst.wav")
+    
     try:
-        pygame.mixer.init()
-        pygame.mixer.music.load(launcherOstPath)
-        pygame.mixer.music.play(loops=-1)
+        winsound.PlaySound(launcherOstPath,winsound.SND_FILENAME | winsound.SND_ASYNC | winsound.SND_LOOP)
     except:
-        try:
-            winsound.PlaySound(launcherOstPath,winsound.SND_FILENAME | winsound.SND_ASYNC | winsound.SND_LOOP)
-        except:
-            pass
+        pass
     game_path = config.get("GAME_PATH","")
 
     if not game_path or game_path == "" or not "BLEACH Rebirth of Souls" in game_path:
@@ -246,17 +230,13 @@ try:
         
         repairWaitOstPath = os.path.join(BASE_DIR,"ressources","RepairWaitOst.wav")
         repairEndOstPath = os.path.join(BASE_DIR,"ressources","RepairEndOst.wav")
+        
+        
         try:
-            pass
-            pygame.mixer.music.stop()
-            pygame.mixer.music.load(repairWaitOstPath)
-            pygame.mixer.music.play(loops=-1)
+            winsound.PlaySound(None, winsound.SND_PURGE)
+            winsound.PlaySound(repairWaitOstPath, winsound.SND_ASYNC | winsound.SND_LOOP)
         except:
-            try:
-                winsound.PlaySound(None, winsound.SND_PURGE)
-                winsound.PlaySound(repairWaitOstPath, winsound.SND_ASYNC | winsound.SND_LOOP)
-            except:
-                pass
+            pass
         
         try:
             subprocess.run([
@@ -264,38 +244,25 @@ try:
             ], capture_output=True,creationflags=subprocess.CREATE_NO_WINDOW)
         except:
             shutil.copytree(repair_game_path, game_path, dirs_exist_ok=True)
+       
         try:
-            pygame.mixer.music.stop()
-            pygame.mixer.music.load(repairEndOstPath)
-            pygame.mixer.music.play(loops=-1)
+            winsound.PlaySound(None, winsound.SND_PURGE)
+            winsound.PlaySound(repairEndOstPath, winsound.SND_ASYNC)
         except:
-            try:
-                winsound.PlaySound(None, winsound.SND_PURGE)
-                winsound.PlaySound(repairEndOstPath, winsound.SND_ASYNC)
-            except:
-                pass
+            pass
         messagebox.showinfo("Repair", "Files repaired successfully!")
         backToMainMenu()
         launcherOstPath = os.path.join(BASE_DIR,"ressources","LauncherOst.wav")
+        
         try:
-            pygame.mixer.music.stop()
-            pygame.mixer.music.load(launcherOstPath)
-            pygame.mixer.music.play(loops=-1)
+            winsound.PlaySound(None, winsound.SND_PURGE)
+            winsound.PlaySound(launcherOstPath, winsound.SND_ASYNC | winsound.SND_LOOP)
         except:
-            try:
-                winsound.PlaySound(None, winsound.SND_PURGE)
-                winsound.PlaySound(launcherOstPath, winsound.SND_ASYNC | winsound.SND_LOOP)
-            except:
-                pass
+            pass
 
     def launch(gameVersion):
         subprocess.run(["git", "-C", BASE_DIR, "pull"], check=True, capture_output=True, text=True)
         window.destroy()
-        try: 
-            pygame.mixer.music.stop()
-        except:
-            pass
-        
         #folder injection
         injectFolder(gameVersion,"Script")
 
@@ -314,10 +281,10 @@ try:
 
         
         #Performance Mode injection
-        shutil.copytree(os.path.join(BASE_DIR,"Files","Spec Mod",'reverse_globe_effect_remover_by_grifo',f'{config["reverse_globe_effect_remover_by_grifo"]}',"high"),
+        shutil.copytree(os.path.join(BASE_DIR,"Files","Spec Mod",'reverse_globe',f'{config["reverse_globe"]}',"high"),
                     os.path.join(game_path,"00HIGH","Effect","spfx","com"),dirs_exist_ok=True)
         
-        shutil.copytree(os.path.join(BASE_DIR,"Files","Spec Mod",'reverse_globe_effect_remover_by_grifo',f'{config["reverse_globe_effect_remover_by_grifo"]}',"middle"),
+        shutil.copytree(os.path.join(BASE_DIR,"Files","Spec Mod",'reverse_globe',f'{config["reverse_globe"]}',"middle"),
                     os.path.join(game_path,"01MIDDLE","Effect","spfx","com"),dirs_exist_ok=True)
             
         for folder in os.listdir(os.path.join(BASE_DIR,"Files","Spec Mod")):
@@ -375,6 +342,12 @@ try:
 
     def readBalanceChanges():
         webbrowser.open("https://rebalance-of-souls.github.io/reBalanceOfSouls.github.io/")
+        latestChangesPath = os.path.join(BASE_DIR,"BalanceChanges","LatestChanges.txt")
+       
+        try:
+            open_file(latestChangesPath)
+        except:
+            print("Error opening LatestChanges.txt")
     
     def readCredits():
         creditsFile = os.path.join(BASE_DIR,"Credits","credits.txt")
@@ -460,54 +433,54 @@ try:
         settingsPage.tkraise()
 
     def adjustAwakeningAuraSettings():
-        if config["awakeningaura_effects_by_grifo"] == "original":
-            config["awakeningaura_effects_by_grifo"] = "lowspec"
+        if config["awakeningaura"] == "original":
+            config["awakeningaura"] = "lowspec"
         else:
-            config["awakeningaura_effects_by_grifo"] = "original"
-        awakeningAuraButton.config(text=f'remove awakening aura : currently {"OFF" if config["awakeningaura_effects_by_grifo"] == "original" else "ON"}')
+            config["awakeningaura"] = "original"
+        awakeningAuraButton.config(text=f'remove awakening aura : currently {"OFF" if config["awakeningaura"] == "original" else "ON"}')
         
     
     def adjustBreakerGrabSettings():
-        if config["breaker_grab_effect_remover_by_grifo"] == "original":
-            config["breaker_grab_effect_remover_by_grifo"] = "lowspec"
+        if config["breaker_grab"] == "original":
+            config["breaker_grab"] = "lowspec"
         else:
-            config["breaker_grab_effect_remover_by_grifo"] = "original"
+            config["breaker_grab"] = "original"
 
         breakerGrabButton.config(
-            text=f'remove breaker grab effect : currently {"OFF" if config["breaker_grab_effect_remover_by_grifo"] == "original" else "ON"}'
+            text=f'remove breaker grab effect : currently {"OFF" if config["breaker_grab"] == "original" else "ON"}'
         )
         
 
     def adjustHakugekiSettings():
-        if config["hakugeki_effect_remover_by_grifo"] == "original":
-            config["hakugeki_effect_remover_by_grifo"] = "lowspec"
+        if config["hakugeki"] == "original":
+            config["hakugeki"] = "lowspec"
         else:
-            config["hakugeki_effect_remover_by_grifo"] = "original"
-        hakugekiButton.config(text=f'remove hakugeki effect : currently {"OFF" if config["hakugeki_effect_remover_by_grifo"] == "original" else "ON"}')
+            config["hakugeki"] = "original"
+        hakugekiButton.config(text=f'remove hakugeki effect : currently {"OFF" if config["hakugeki"] == "original" else "ON"}')
         
     
     def adjustHitEffectSettings():
-        if config["hit_effect_remover_by_grifo"] == "original":
-            config["hit_effect_remover_by_grifo"] = "lowspec"
+        if config["hit"] == "original":
+            config["hit"] = "lowspec"
         else:
-            config["hit_effect_remover_by_grifo"] = "original"
-        hitEffectButton.config(text=f'remove hit effect : currently {"OFF" if config["hit_effect_remover_by_grifo"] == "original" else "ON"}')  
+            config["hit"] = "original"
+        hitEffectButton.config(text=f'remove hit effect : currently {"OFF" if config["hit"] == "original" else "ON"}')  
         
     
     def adjustReverseGlobeSettings():
-        if config["reverse_globe_effect_remover_by_grifo"] == "original":
-            config["reverse_globe_effect_remover_by_grifo"] = "lowspec"
+        if config["reverse_globe"] == "original":
+            config["reverse_globe"] = "lowspec"
         else:
-            config["reverse_globe_effect_remover_by_grifo"] = "original"
-        reverseGlobeButton.config(text=f'remove reverse globe effect : currently {"OFF" if config["reverse_globe_effect_remover_by_grifo"] == "original" else "ON"}')  
+            config["reverse_globe"] = "original"
+        reverseGlobeButton.config(text=f'remove reverse globe effect : currently {"OFF" if config["reverse_globe"] == "original" else "ON"}')  
         
     
     def adjustSkillActivationSettings():
-        if config["skill_activation_effect_remover_by_grifo"] == "original":
-            config["skill_activation_effect_remover_by_grifo"] = "lowspec"
+        if config["skill_activation"] == "original":
+            config["skill_activation"] = "lowspec"
         else:
-            config["skill_activation_effect_remover_by_grifo"] = "original"
-        skillActivationButton.config(text=f'remove skill activation effect : currently {"OFF" if config["skill_activation_effect_remover_by_grifo"] == "original" else "ON"}')  
+            config["skill_activation"] = "original"
+        skillActivationButton.config(text=f'remove skill activation effect : currently {"OFF" if config["skill_activation"] == "original" else "ON"}')  
         
 
     def backToMainMenu():
@@ -554,7 +527,7 @@ try:
         eightKonpakus.config(text=f'8 Konpakus : (Currently {"ON" if gameMode == "EightKonpakus" else "OFF"})')
     
     def unlockDangaiIchigo():
-        result = messagebox.askyesno("Unlock Dangai Ichigo", "Unlocking Dangai Ichigo this way will reset your ranked progress, are you sure you want to continue?")
+        result = messagebox.askyesno("Unlock Dangai Ichigo", "Unlocking Dangai Ichigo this way will reset your settings and ranked progress , are you sure you want to continue?")
         theDangaiFiles = os.path.join(BASE_DIR,"ressources","savedata.bin")
         if result:
             appdataPath = os.getenv("APPDATA")
@@ -633,7 +606,7 @@ try:
     #Settings page
     awakeningAuraButton = Button(
     settingsPage,
-    text=f'remove awakening aura : currently {"OFF" if config["awakeningaura_effects_by_grifo"] == "original" else "ON"}',
+    text=f'remove awakening aura : currently {"OFF" if config["awakeningaura"] == "original" else "ON"}',
     font=("Courrier", textSize),
     bg="white",
     fg=bgcolor,
@@ -644,7 +617,7 @@ try:
 
     breakerGrabButton = Button(
         settingsPage,
-        text=f'remove breaker grab effect : currently {"OFF" if config["breaker_grab_effect_remover_by_grifo"] == "original" else "ON"}',
+        text=f'remove breaker grab effect : currently {"OFF" if config["breaker_grab"] == "original" else "ON"}',
         font=("Courrier", textSize),
         bg="white",
         fg=bgcolor,
@@ -655,7 +628,7 @@ try:
 
     hakugekiButton = Button(
         settingsPage,
-        text=f'remove hakugeki effect : currently {"OFF" if config["hakugeki_effect_remover_by_grifo"] == "original" else "ON"}',
+        text=f'remove hakugeki effect : currently {"OFF" if config["hakugeki"] == "original" else "ON"}',
         font=("Courrier", textSize),
         bg="white",
         fg=bgcolor,
@@ -666,7 +639,7 @@ try:
 
     hitEffectButton = Button(
         settingsPage,
-        text=f'remove hit effect : currently {"OFF" if config["hit_effect_remover_by_grifo"] == "original" else "ON"}',
+        text=f'remove hit effect : currently {"OFF" if config["hit"] == "original" else "ON"}',
         font=("Courrier", textSize),
         bg="white",
         fg=bgcolor,
@@ -677,7 +650,7 @@ try:
 
     reverseGlobeButton = Button(
         settingsPage,
-        text=f'remove reverse globe effect : currently {"OFF" if config["reverse_globe_effect_remover_by_grifo"] == "original" else "ON"}',
+        text=f'remove reverse globe effect : currently {"OFF" if config["reverse_globe"] == "original" else "ON"}',
         font=("Courrier", textSize),
         bg="white",
         fg=bgcolor,
@@ -688,7 +661,7 @@ try:
 
     skillActivationButton = Button(
         settingsPage,
-        text=f'remove skill activation effect : currently {"OFF" if config["skill_activation_effect_remover_by_grifo"] == "original" else "ON"}',
+        text=f'remove skill activation effect : currently {"OFF" if config["skill_activation"] == "original" else "ON"}',
         font=("Courrier", textSize),
         bg="white",
         fg=bgcolor,

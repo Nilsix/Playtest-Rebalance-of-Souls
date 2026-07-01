@@ -29,18 +29,21 @@ BASE AND EVO :
 		Fixed an issue where yamamoto would hit sig from behind against an imperfect flashstep
 	
 	SP2 : 
-		pushback on hit 0.2->5
-		Yamamoto cannot combo after SP2 anymore
-	
-
+		hitstun (last hit) : 78 -> 66
+		can still combo after sp2, but only with light1
 	EVO : 
 		Tilt : 
 			slow_motion_rate 0.2 -> 1
 			Yamamoto got his old tilt speed back
-			hi03 and hi03_2 Burn Gauge generation (add_unique_value) reduced from 0.2 + 0.2 -> 0.15 + 0.15
 
 		SP1 (charged) :
 			damage value : 400 -> 200
+	
+		sig(1): 
+			damage : 1250 -> 750
+
+		sig(2): 
+			damage : 1500 -> 1000
 	
 	Known issue : 
 		his SP2 can whiff up close against someone grabbing at the same time, this will be fixed in the future 
@@ -51,12 +54,21 @@ Kaien :
 	Flashstep on block : 
 		minus -> 0 on block
 
+Renji Abarai (changes made by Bergen):
+Giant Form:
+	Reduced chip damage during SP2 active for heavy 1, heavy 2 and signature (0.5 -> 0.15)
+Weakened Form:
+	increased weakened form hp from 9000 -> 9500 to match komamura's
+	Reduced damage from 1200 -> 780 
+	increased hitstun on last hit from 30 -> 50 and reduced recovery on a landed counter to make it combo.
+	increased recovery on a whiffed counter from 60 -> 70
+	
 
 Shikai Ichigo (changes made by Bergen):
 evo:	
-	Fighting Spirit required to reach sublimation increased from 3.5 -> 7.0
+	Fighting Spirit required to reach sublimation increased from 3.5 -> 5.9
 	increased sp1(non-white) damage by 15% 
-	decreased sp1(white) damage by 50%
+	decreased sp1(white) damage by 70%
 	increase sp1(white) projectile speed by 100% and distance limit by 20%
 	added sp1 tilt (in white)
 	sp1 tilt can combo into an sp1 with a microwalk
@@ -259,7 +271,10 @@ Yoruichi (changes made by Nilsix and Bergen):
         SP1 (flashmaster):
             hitstun 50->42
             "Altough it's also a damage nerf because she cannot do sp1 (flashmaster) -> heavy (she can still light), the main goal of that hitstun nerf is to remove the sp1 (flashmaster) -> tilt unblockable without needing to reduce the speed of her tilt
-        Flashstep followup (last hit) : 
+			
+			knockback on hit : 0.4 -> 0.2
+			"Fixed an issue where sp1(flashmaster) -> light1 would whiff against some characters 
+		Flashstep followup (last hit) : 
             hitstun : 36->31
         "Flashstep followup -> dash light is still an oki, but now she cannot do flashstep followup -> yellow"
 Notes : 
